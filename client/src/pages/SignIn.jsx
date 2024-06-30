@@ -33,7 +33,7 @@ export default function SignIn() {
       setSuccess(res?.data?.message)
       reset()
       setLoading(false)
-      console.log(res);
+      // console.log(res);
       if (res?.statusText === 'OK') {
         navigate('/')
       }
