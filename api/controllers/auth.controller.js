@@ -44,8 +44,9 @@ export const signin = async(req, res, next)=>{
         }
 
         const validPassword = bcryptjs.compareSync(password, validUser.password)
+        console.log(validPassword)
         if(!validPassword){
-            next(errorHandler( 400 ,"Invalid password"));
+            return next(errorHandler( 400 ,"Invalid Authentication"));
         }
         const {password:pass, ...rest} = validUser._doc
 
