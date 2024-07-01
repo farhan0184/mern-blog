@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoafingBtnSvg from "../components/LoafingBtnSvg";
+import GoogleAuth from "../components/GoogleAuth";
 
 
 
@@ -79,6 +80,7 @@ export default function SignUp() {
             <Button type="submit" className="mt-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" fullWidth>
               {loading ? <LoafingBtnSvg/> : 'Sign Up'}
             </Button>
+            <GoogleAuth />
             <Typography color="gray" className="mt-4 text-center font-normal">
               Already have an account?{" "}
               <a href="/sign-in" className="font-medium text-gray-900">
