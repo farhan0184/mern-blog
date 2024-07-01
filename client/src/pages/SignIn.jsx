@@ -7,13 +7,14 @@ import axios from 'axios';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoafingBtnSvg from "../components/LoafingBtnSvg";
+import { useDispatch, useSelector } from "react-redux";
+import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
 
 
 
 export default function SignIn() {
-  const [formError, setFormError] = useState(null)
-  const [success, setSuccess] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
+  const {loading, error} = useSelector(state => state.user)
   const navigate = useNavigate()
   const { handleSubmit, register, reset, formState: { errors } } = useForm({
     defaultValues: {
@@ -25,21 +26,23 @@ export default function SignIn() {
 
   const onSubmit = async (value) => {
 
-    console.log(value)
+    // console.log(value)
     try {
-      setLoading(true)
+      dispatch(signInStart())
       const res = await axios.post('/api/auth/signin', value)
       // console.log(res);
-      setSuccess(res?.data?.message)
-      reset()
-      setLoading(false)
+      // setSuccess(res?.data?.message)
+      // reset()
+      
       // console.log(res);
       if (res?.statusText === 'OK') {
+        dispatch(signInSuccess(res?.data?.data))
         navigate('/')
+      }else{
+        dispatch(signInFailure(res?.data?.message))
       }
     } catch (error) {
-      setFormError(error.response.data.message)
-      setLoading(false)
+      dispatch(signInFailure(error?.response?.data?.message))
     }
 
   }
@@ -84,8 +87,8 @@ export default function SignIn() {
               </a>
             </Typography>
             <div className="mt-3">
-              {formError && <Alert color="red" >{formError}</Alert>}
-              {success && <Alert color="green">{success}</Alert>}
+              {error && <Alert color="red" >{error}</Alert>}
+              {/* {success && <Alert color="green">{success}</Alert>} */}
             </div>
           </form>
         </Card>
