@@ -5,10 +5,13 @@ import { Bars3Icon, MoonIcon, SunIcon, XMarkIcon } from '@heroicons/react/24/out
 import SearchInput from './SearchInput';
 import MobileSearchInput from './MobileSearchInput';
 import { Logo } from './index'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ProfileDropDown } from './ProfileDropDown';
 import { useNavigate, useResolvedPath } from 'react-router-dom';
+import { toggleDarkMode } from '../redux/theme/themeSlice';
 export default function NavbarSection() {
+    const dispatch = useDispatch()
+    const { theme } = useSelector(state => state.theme)
     const [openNav, setOpenNav] = React.useState(false);
     const [isClick, setIsClick] = React.useState(false);
     const { user } = useSelector(state => state.user)
@@ -25,8 +28,8 @@ export default function NavbarSection() {
     return (
         // mx-auto max-w-screen-2xl
 
-        <Navbar className="sticky top-0 z-50 max-w-full px-4 py-4 rounded-none">
-            <div className="flex items-center justify-between text-blue-gray-900">
+        <Navbar className="sticky top-0 z-50 max-w-full px-4 py-4 rounded-none ">
+            <div className="flex items-center justify-between ">
                 <Logo />
 
                 {/* search input */}
@@ -54,9 +57,9 @@ export default function NavbarSection() {
                         variant="text"
                         color="blue-gray"
                         className=""
-                        onClick={() => setIsClick(!isClick)}
+                        onClick={() => dispatch(toggleDarkMode())}
                     >
-                        {isClick ? <MoonIcon className="h-6 w-6" strokeWidth={2} /> : <SunIcon className="h-6 w-6" strokeWidth={2} />}
+                        {theme !== 'light' ? <MoonIcon className="h-6 w-6" strokeWidth={2} /> : <SunIcon className="h-6 w-6" strokeWidth={2} />}
                     </IconButton>
                     {!user ? <div>
                         { path === '/sign-in' ? <Button variant="outlined" color='light-blue' size="sm" onClick={() => navigate('/sign-up')}>

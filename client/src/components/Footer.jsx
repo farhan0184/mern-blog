@@ -34,7 +34,7 @@ export function Footer() {
                             <ul key={title}>
                                 <Typography
                                     variant="small"
-                                    color="blue-gray"
+                                    
                                     className="mb-3 font-medium opacity-40"
                                 >
                                     {title}
