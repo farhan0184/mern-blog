@@ -1,6 +1,6 @@
 import { z } from 'zod';
 const passwordValidation = new RegExp(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/
 );
 
 
@@ -39,7 +39,7 @@ export const signinSchema = z.object({
 })
 
 export const profileSchema = z.object({
-    profileImg: z.any().refine((file) => file, "Please upload file"),
+    profilePicture: z.any().refine((file) => file, "Please upload file"),
     username: z.string().min(1, { message: 'Must have at least 1 character' }),
     email: z
         .string()

@@ -30,7 +30,7 @@ export default function DashboardProfile() {
   // form : react hook form
   const { handleSubmit, register, reset, formState: { errors } } = useForm({
     defaultValues: {
-      profileImg: user.profilePicture,
+      profilePicture: user.profilePicture,
       username: user.username,
       email: user.email,
       password: ''
