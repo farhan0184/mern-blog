@@ -7,6 +7,7 @@ import {
     Avatar,
     Typography,
 } from "@material-tailwind/react";
+import { Link } from 'react-router-dom';
 
 export function ProfileDropDown({ user }) {
 
@@ -21,15 +22,14 @@ export function ProfileDropDown({ user }) {
                 />
             </MenuHandler>
             <MenuList>
-                <div>
-                    <Typography variant="small" className="font-medium">
-                        {user?.username}
-                    </Typography>
-                    <Typography variant="small" className="font-medium">
-                        {user?.email}
-                    </Typography>
-                </div>
 
+                <Typography variant="small" className="font-medium">
+                    {user?.username}
+                </Typography>
+                <Typography variant="small" className="font-medium">
+                    {user?.email}
+                </Typography>
+                
                 <hr className="my-2 border-blue-gray-50" />
                 <MenuItem className="flex items-center gap-2">
                     <svg
@@ -47,11 +47,13 @@ export function ProfileDropDown({ user }) {
                         />
                     </svg>
 
-                    <Typography variant="small" className="font-medium">
-                        My Profile
-                    </Typography>
+                    <Link to="/dashboard?tab=profile">
+                        <Typography variant="small" className="font-medium">
+                            My Profile
+                        </Typography>
+                    </Link>
                 </MenuItem>
-                <MenuItem className="flex items-center gap-2">
+                {/* <MenuItem className="flex items-center gap-2">
                     <svg
                         width="16"
                         height="16"
@@ -109,7 +111,7 @@ export function ProfileDropDown({ user }) {
                     <Typography variant="small" className="font-medium">
                         Help
                     </Typography>
-                </MenuItem>
+                </MenuItem> */}
                 <hr className="my-2 border-blue-gray-50" />
                 <MenuItem className="flex items-center gap-2 ">
                     <svg

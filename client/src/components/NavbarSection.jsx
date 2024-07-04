@@ -28,7 +28,7 @@ export default function NavbarSection() {
     return (
         // mx-auto max-w-screen-2xl
 
-        <Navbar className="sticky top-0 z-50 max-w-full px-4 py-4 rounded-none ">
+        <Navbar className="fixed top-0 z-50 max-w-full px-4 py-4 rounded-none ">
             <div className="flex items-center justify-between ">
                 <Logo />
 

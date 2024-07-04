@@ -10,6 +10,7 @@ import LoafingBtnSvg from "../components/LoafingBtnSvg";
 import { useDispatch, useSelector } from "react-redux";
 import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
 import GoogleAuth from "../components/GoogleAuth";
+import CustomBtn from "../components/CustomBtn";
 
 
 
@@ -78,9 +79,10 @@ export default function SignIn() {
 
             </div>
 
-            <Button type="submit" className="mt-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" fullWidth>
+            {/* <Button type="submit" className="mt-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" fullWidth>
               {loading ? <LoafingBtnSvg/> : 'Sign In'}
-            </Button>
+            </Button> */}
+            <CustomBtn title={'Sign In'} loading={loading}/>
             <GoogleAuth />
             <Typography color="gray" className="mt-4 text-center font-normal">
               Have an account?{" "}

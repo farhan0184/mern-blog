@@ -8,6 +8,7 @@ import About from './pages/About'
 import NavbarSection from './components/NavbarSection'
 import { Footer } from './components/Footer'
 import PrivateRoute from './components/PrivateRoute'
+import BaseLayout from './layout/BaseLayout'
 
 function App() {
 
@@ -16,13 +17,15 @@ function App() {
     <BrowserRouter>
       <NavbarSection />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/sign-in' element={<SignIn />} />
-        <Route element={<PrivateRoute />} >
-          <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/projects' element={<Projects />} />
+        <Route element={<BaseLayout />}>
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/sign-up' element={<SignUp />} />
+          <Route path='/sign-in' element={<SignIn />} />
+          <Route element={<PrivateRoute />} >
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/projects' element={<Projects />} />
+          </Route>
         </Route>
       </Routes>
       <Footer />
