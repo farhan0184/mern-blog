@@ -1,7 +1,7 @@
 import { Input, Typography } from "@material-tailwind/react";
 
 
-export default function CustomInput({register, name, placeholder, error, label, type}) {
+export default function CustomInput({register, name, placeholder, error, label, type, disabled}) {
 
     return (
         <div>
@@ -19,6 +19,7 @@ export default function CustomInput({register, name, placeholder, error, label, 
                 labelProps={{
                     className: "before:content-none after:content-none",
                 }}
+                disabled={disabled}
             />
         </div>
     )
