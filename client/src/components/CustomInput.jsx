@@ -15,7 +15,7 @@ export default function CustomInput({register, name, placeholder, error, label, 
                 
                 placeholder={placeholder}
                 {...register(name, { required: true })}
-                className=" !border-blue-gray-200"
+                className=" !border-blue-gray-200 disabled:dark:bg-white/30 dark:text-white"
                 labelProps={{
                     className: "before:content-none after:content-none",
                 }}
