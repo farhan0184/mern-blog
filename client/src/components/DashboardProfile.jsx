@@ -12,7 +12,7 @@ import { Alert } from '@material-tailwind/react'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { getChangedProperties } from '../utils/utlis'
-import { updateStart, updateSuccess, updateFailure } from '../redux/user/userSlice'
+import { updateStart, updateSuccess, updateFailure, userSignoutSuccess } from '../redux/user/userSlice'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import Modal from './Modal'
@@ -160,7 +160,21 @@ export default function DashboardProfile() {
     }
 
   }
-  // console.log(openModal)
+
+  // signout function
+  const handleSignOut = async () => {
+    try {
+      const res = await axios.post('/api/user/signout')
+      if (res.statusText === 'OK') {
+        dispatch(userSignoutSuccess())
+      }else{
+        console.log(res?.data?.message)
+      }
+
+    } catch (error) {
+      console.log(error?.response?.data?.message)
+    }
+  }
   return (
     <>
       <Modal openModal={openModal} handleOpenModal={handleOpenModal} />
@@ -207,7 +221,7 @@ export default function DashboardProfile() {
 
         <div className='text-red-500 flex justify-between py-5'>
           <span className='cursor-pointer' onClick={handleOpenModal}>Delete Account</span>
-          <span className='cursor-pointer'>Sign Out</span>
+          <span onClick={handleSignOut} className='cursor-pointer'>Sign Out</span>
         </div>
 
         {error && <Alert color="red">{error}</Alert>}

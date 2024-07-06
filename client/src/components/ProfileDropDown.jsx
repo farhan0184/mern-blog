@@ -8,9 +8,25 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { userSignoutSuccess } from '../redux/user/userSlice';
+import axios from 'axios';
 
 export function ProfileDropDown({ user }) {
+    const dispatch = useDispatch()
+    const handleSignOut = async () => {
+        try {
+            const res = await axios.post('/api/user/signout')
+            if (res.statusText === 'OK') {
+                dispatch(userSignoutSuccess())
+            } else {
+                console.log(res?.data?.message)
+            }
 
+        } catch (error) {
+            console.log(error?.response?.data?.message)
+        }
+    }
     return (
         <Menu>
             <MenuHandler>
@@ -29,7 +45,7 @@ export function ProfileDropDown({ user }) {
                 <Typography variant="small" className="font-medium">
                     {user?.email}
                 </Typography>
-                
+
                 <hr className="my-2 border-blue-gray-50" />
                 <MenuItem className="flex items-center gap-2">
                     <svg
@@ -128,7 +144,7 @@ export function ProfileDropDown({ user }) {
                             fill="#90A4AE"
                         />
                     </svg>
-                    <Typography variant="small" className="font-medium">
+                    <Typography onClick={handleSignOut} variant="small" className="font-medium">
                         Sign Out
                     </Typography>
                 </MenuItem>
