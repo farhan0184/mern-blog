@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux'
 import CustomInput from './CustomInput'
 import { useForm } from 'react-hook-form'
@@ -7,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import CustomBtn from './CustomBtn'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { app } from '../firebase'
-import { Alert } from '@material-tailwind/react'
+import { Alert, Button } from '@material-tailwind/react'
 // progress bar
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -20,6 +21,7 @@ import Modal from './Modal'
 export default function DashboardProfile() {
   // redux section
   const { user, error, loading } = useSelector((state) => state.user)
+  // console.log(user.isAdmin)
   const dispatch = useDispatch()
 
   // console.log(error)
@@ -167,7 +169,7 @@ export default function DashboardProfile() {
       const res = await axios.post('/api/user/signout')
       if (res.statusText === 'OK') {
         dispatch(userSignoutSuccess())
-      }else{
+      } else {
         console.log(res?.data?.message)
       }
 
@@ -217,6 +219,11 @@ export default function DashboardProfile() {
           <CustomInput type={'password'} register={register} name={'password'} placeholder={'password'} error={errors.password} label={'Password'} />
           <CustomBtn title={'Sign In'} loading={loading} />
 
+          <div>
+            {user.isAdmin && <Link className='mt-5' to={'/create-post'}>
+              <Button className="w-full border-green-400 dark:text-white" variant="outlined">Create A Post</Button>
+            </Link>}
+          </div>
         </form>
 
         <div className='text-red-500 flex justify-between py-5'>

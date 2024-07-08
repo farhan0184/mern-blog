@@ -9,6 +9,8 @@ import NavbarSection from './components/NavbarSection'
 import { Footer } from './components/Footer'
 import PrivateRoute from './components/PrivateRoute'
 import BaseLayout from './layout/BaseLayout'
+import CreatePost from './pages/CreatePost'
+import IsAdminPrivateRoute from './components/IsAdminPrivateRoute'
 
 function App() {
 
@@ -25,6 +27,9 @@ function App() {
           <Route element={<PrivateRoute />} >
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/projects' element={<Projects />} />
+          </Route>
+          <Route element={<IsAdminPrivateRoute />}>
+            <Route path='/create-post' element={<CreatePost />} />
           </Route>
         </Route>
       </Routes>
