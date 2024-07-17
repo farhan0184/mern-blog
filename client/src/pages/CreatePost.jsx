@@ -25,7 +25,7 @@ export default function CreatePost() {
                     <input type="file" className='border-[1px] p-2 focus:border-teal-500 rounded-lg ' />
                     <Button color="teal" variant="outlined" className='w-max'>Upload Image</Button>
                 </div>
-                <ReactQuill theme="snow" className='h-[200px] pb-12' />
+                <ReactQuill theme="snow" className='h-[200px] pb-12' required />
                 <div>
                     <CustomBtn title="Publish Post" loading={false} />
                 </div>
