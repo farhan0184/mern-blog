@@ -16,16 +16,19 @@ import {
   InboxIcon,
   PowerIcon,
 } from "@heroicons/react/24/solid";
-import { useLocation } from 'react-router-dom';
+import { HiDocumentText } from "react-icons/hi";
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userSignoutSuccess } from "../redux/user/userSlice";
 import axios from "axios";
 
 export function Sidebar({ isDrawer, closeDrawer }) {
+  const { user } = useSelector(state => state.user)
   const location = useLocation();
   const [tab, setTab] = useState('')
   const dispatch = useDispatch()
+  // console.log(user)
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search)
@@ -72,44 +75,33 @@ export function Sidebar({ isDrawer, closeDrawer }) {
         </IconButton>}
       </div>
       <List >
+        <Link to={'/dashboard?tab=profile'}>
+          <ListItem className={`text-gray-700 dark:text-white  flex justify-between   ${tab === 'profile' ? "bg-gray-200 dark:bg-white/20" : "hover:bg-gray-200 dark:hover:bg-white/20"}`}>
+            <span className="flex items-center">
+              <ListItemPrefix>
+                <UserCircleIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Profile
+            </span>
+            <span className="py-1 px-2 bg-gray-500 text-white rounded-lg">{user.isAdmin ? 'Admin' : 'User'}</span>
+          </ListItem>
+        </Link>
+        {
+          user.isAdmin && <>
+            <Link to={'/dashboard?tab=posts'}>
+              <ListItem className={`text-gray-700 dark:text-white py-4  flex justify-between   ${tab === 'posts' ? "bg-gray-200 dark:bg-white/20" : "hover:bg-gray-200 dark:hover:bg-white/20"}`}>
+                <span className="flex items-center">
+                  <ListItemPrefix>
+                    <HiDocumentText className="h-5 w-5" />
+                  </ListItemPrefix>
+                  Posts
+                </span>
+              </ListItem>
+            </Link>
+          </>
+        }
 
-        {/* <ListItem>
-          <ListItemPrefix>
-            <PresentationChartBarIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Dashboard
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <ShoppingBagIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          E-Commerce
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <InboxIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Inbox
-          <ListItemSuffix>
-            <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
-          </ListItemSuffix>
-        </ListItem> */}
-        <ListItem className={`text-gray-700 dark:text-white  flex justify-between   ${tab === 'profile' ? "bg-gray-200 dark:bg-white/20" : "hover:bg-gray-200 dark:hover:bg-white/20"}`}>
-          <span className="flex items-center">
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Profile
-          </span>
-          <span className="py-1 px-2 bg-gray-500 text-white rounded-lg">User</span>
-        </ListItem>
-        {/* <ListItem>
-          <ListItemPrefix>
-            <Cog6ToothIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Settings
-        </ListItem> */}
-        <ListItem onClick={handleSignOut} className="text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:text-white  dark:hover:bg-white/20">
+        <ListItem onClick={handleSignOut} className="text-gray-700 py-4 dark:text-white hover:bg-gray-200 dark:hover:text-white  dark:hover:bg-white/20">
           <ListItemPrefix>
             <PowerIcon className="h-5 w-5" />
           </ListItemPrefix>

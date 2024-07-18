@@ -92,7 +92,7 @@ export default function CreatePost() {
                         <Option>Option 4</Option>
                         <Option>Option 5</Option>
                     </Select> */}
-                    <select name="" id="" className='border-[1px] border-gray-400 p-2 outline-none rounded-lg w-1/2 ' onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
+                    <select name="" id="" className='border-[1px] border-gray-400 p-2 outline-none rounded-lg w-1/2 dark:bg-transparent ' onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
                         <option value="uncategorized">Select a Category</option>
                         <option value="reactjs">React Js</option>
                         <option value="vuejs">Vue Js</option>
