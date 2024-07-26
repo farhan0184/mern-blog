@@ -1,4 +1,4 @@
-import { Card, Typography } from '@material-tailwind/react'
+import { Button, Card, Typography } from '@material-tailwind/react'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -6,15 +6,20 @@ import { Link } from 'react-router-dom'
 
 export default function DashPost() {
   const { user } = useSelector((state) => state.user)
+
   const TABLE_HEAD = ["Date Update", "Post Image", "Post Title", "Category", "Delete", "Edit"];
   const [posts, setPosts] = useState([])
-  console.log(posts)
+  const [showMore, setShowMore] = useState(true)
+  // console.log(posts)
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const res = await axios.get(`/api/post/getposts?userId=${user._id}`)
         if (res.statusText = 'OK') {
           setPosts(res?.data?.posts)
+          if (res?.data?.posts?.length < 9) {
+            setShowMore(false)
+          }
         }
       } catch (error) {
         console.log(error)
@@ -23,17 +28,37 @@ export default function DashPost() {
     if (user.isAdmin) {
       fetchPosts()
     }
-  }, [])
+  }, [user._id])
+  // console.log(posts.length)
+
+  const handleShowMore = async () => {
+    const startIndex = posts.length
+    try {
+      const res = await axios.get(`/api/post/getposts?userId=${user._id}&startIndex=${startIndex}`)
+      if (res.statusText === 'OK') {
+        setPosts(prev => [...prev, ...res?.data?.posts])
+        console.log(res.data.posts.length < 9)
+        if (res?.data?.posts?.length < 9) {
+          setShowMore(false)
+        }
+      }
+    } catch (error) {
+
+    }
+
+
+  }
+
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto scrollbar scrollbar-track-slate-100'>
-      <div className="h-min mx-auto my-10 ">
-        <table className="w-full min-w-max table-auto text-left">
+      <div className="h-min  my-10 ">
+        {<><table className="w-full min-w-max table-auto text-left">
           <thead>
             <tr className='dark:bg-gray-600'>
               {TABLE_HEAD.map((head) => (
                 <th key={head} className="border-b  border-blue-gray-100  bg-blue-gray-50 dark:bg-transparent p-4">
                   <Typography
-                    variant="small"
+                    variant="paragraph"
                     color="blue-gray"
                     className="font-normal leading-none opacity-70 dark:text-white"
                   >
@@ -48,7 +73,7 @@ export default function DashPost() {
               <tr key={idx} className='dark:border-gray-700 dark:text-white dark:bg-gray-800'>
                 <td className="p-4 border-b border-blue-gray-50">
                   <Typography
-                    variant="small"
+                    variant="paragraph"
                     color="blue-gray"
                     className="font-normal dark:text-white"
                   >
@@ -66,13 +91,13 @@ export default function DashPost() {
                   </Link>
                 </td>
                 <td className='p-4 border-b border-blue-gray-50'>
-                  <Link to={`/post/${post.slug}`} className='font-bold'>
+                  <Link to={`/post/${post.slug}`} className='font-bold '>
                     {post.title}
                   </Link>
                 </td>
                 <td className="p-4 border-b border-blue-gray-50">
                   <Typography
-                    variant="small"
+                    variant="paragraph"
                     color="blue-gray"
                     className="font-normal dark:text-white"
                   >
@@ -80,10 +105,10 @@ export default function DashPost() {
                   </Typography>
                 </td>
                 <td className='p-4 border-b border-blue-gray-50'>
-                  <span className='font-medium text-red-500 hover:underline cursor-pointer'>Delete</span>
+                  <span className='font-medium text-red-500 hover:underline cursor-pointer text-base'>Delete</span>
                 </td>
                 <td className='p-4 border-b border-blue-gray-50'>
-                  <Link className='text-teal-500 hover:underline' to={`/update-post/${post._id}`}>
+                  <Link className='text-teal-500 hover:underline text-base' to={`/update-post/${post._id}`}>
                     Edit
                   </Link>
                 </td>
@@ -92,6 +117,18 @@ export default function DashPost() {
             ))}
           </tbody>
         </table>
+          {
+            showMore && posts.length !== 0 && (
+              <Button onClick={handleShowMore} className='w-full mt-5 py-4'>Show More</Button>
+            )
+          }
+        </>
+        }
+        {posts.length === 0 && (
+          <div className='h-[500px]  flex items-center justify-center'>
+            <p className='text-xl '>you have not post yet!</p>
+          </div>
+        )}
       </div>
 
     </div>
