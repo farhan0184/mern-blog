@@ -90,3 +90,35 @@ export const deletepost = async (req, res, next) => {
     }
 
 }
+
+
+export const updatepost = async (req, res, next) => {
+    if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+        return next(errorHandler(403, "You are not allowed to delete a post!"))
+    }
+    else {
+        try {
+            const slug = req.body.title
+                .split(" ")
+                .join("-")
+                .toLowerCase()
+                .replace(/[^a-zA-Z0-9-]/g, "-");
+            const updatedPost = await Post.findByIdAndUpdate(
+                req.params.postId,
+                {
+                    $set: {
+                        title: req.body.title,
+                        category: req.body.category,
+                        image: req.body.image,
+                        content: req.body.content,
+                        slug: slug
+                    }
+                },
+                { new: true }
+            )
+            res.status(200).json({data: updatedPost, message: "Post updated successfully" })
+        } catch (error) {
+            next(error)
+        }
+    }
+}

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import CustomDialog from './CustomDialog'
-import { date } from 'zod'
 
 export default function DashPost() {
   const { user } = useSelector((state) => state.user)

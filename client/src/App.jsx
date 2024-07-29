@@ -11,6 +11,7 @@ import PrivateRoute from './components/PrivateRoute'
 import BaseLayout from './layout/BaseLayout'
 import CreatePost from './pages/CreatePost'
 import IsAdminPrivateRoute from './components/IsAdminPrivateRoute'
+import UpdatePost from './pages/UpdatePost'
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
           </Route>
           <Route element={<IsAdminPrivateRoute />}>
             <Route path='/create-post' element={<CreatePost />} />
+            <Route path='/update-post/:postId' element={<UpdatePost />} />
           </Route>
         </Route>
       </Routes>
