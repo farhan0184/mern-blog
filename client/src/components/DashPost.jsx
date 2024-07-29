@@ -3,9 +3,21 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import CustomDialog from './CustomDialog'
+import { date } from 'zod'
 
 export default function DashPost() {
   const { user } = useSelector((state) => state.user)
+  // dialog
+  const [isDialogOpen, setDialogOpen] = useState(false);
+
+  const openDialog = () => setDialogOpen(true);
+  const closeDialog = () => setDialogOpen(false);
+
+  // post id
+  const [postId, setPostId] = useState(null)
+
+
 
   const TABLE_HEAD = ["Date Update", "Post Image", "Post Title", "Category", "Delete", "Edit"];
   const [posts, setPosts] = useState([])
@@ -37,7 +49,7 @@ export default function DashPost() {
       const res = await axios.get(`/api/post/getposts?userId=${user._id}&startIndex=${startIndex}`)
       if (res.statusText === 'OK') {
         setPosts(prev => [...prev, ...res?.data?.posts])
-        console.log(res.data.posts.length < 9)
+        // console.log(res.data.posts.length < 9)
         if (res?.data?.posts?.length < 9) {
           setShowMore(false)
         }
@@ -49,9 +61,30 @@ export default function DashPost() {
 
   }
 
+  const handleDeletePost = async ()=>{
+    // console.log(postId, user._id)
+    try {
+      const res = await axios.delete(
+        `/api/post/deletepost/${postId}/${user._id}`
+      )
+      // console.log(res)
+      if(res.statusText !== 'OK'){
+        console.log(res.data.message)
+
+      }else{
+        setPosts(posts.filter(post => post._id !== postId))
+        setDialogOpen(false)
+      }
+
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto scrollbar scrollbar-track-slate-100'>
       <div className="h-min  my-10 ">
+        <p>{posts.length}</p>
         {<><table className="w-full min-w-max table-auto text-left">
           <thead>
             <tr className='dark:bg-gray-600'>
@@ -105,7 +138,10 @@ export default function DashPost() {
                   </Typography>
                 </td>
                 <td className='p-4 border-b border-blue-gray-50'>
-                  <span className='font-medium text-red-500 hover:underline cursor-pointer text-base'>Delete</span>
+                  <span className='font-medium text-red-500 hover:underline cursor-pointer text-base' onClick={()=>{
+                    setPostId(post._id)
+                    openDialog()
+                  }}>Delete</span>
                 </td>
                 <td className='p-4 border-b border-blue-gray-50'>
                   <Link className='text-teal-500 hover:underline text-base' to={`/update-post/${post._id}`}>
@@ -130,6 +166,17 @@ export default function DashPost() {
           </div>
         )}
       </div>
+
+
+      <CustomDialog isOpen={isDialogOpen} onClose={closeDialog}>
+        <div className='w-[400px]'>
+          <h2 className="text-xl font-bold mb-4 text-black">Are you went to delete this post?</h2>
+          <div className='flex justify-end gap-3'>
+            <Button className='bg-red-500' onClick={closeDialog}>close</Button>
+            <Button onClick={handleDeletePost} className='bg-green-500'>Yes, sure</Button>
+          </div>
+        </div>
+      </CustomDialog>
 
     </div>
   )
