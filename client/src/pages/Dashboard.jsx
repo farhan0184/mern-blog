@@ -4,6 +4,8 @@ import { Sidebar } from "../components/Sidebar";
 import SidebarDrawer from "../components/SidebarDrawer";
 import { useLocation } from "react-router-dom";
 import DashPost from "../components/DashPost";
+import DashUsers from "../components/DashUsers";
+import DashComments from "../components/DashComments";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -27,6 +29,8 @@ export default function Dashboard() {
         <SidebarDrawer />
         {tab==='profile' &&<DashboardProfile />}
         {tab==='posts' &&<DashPost/>}
+        {tab === 'users' && <DashUsers/>}
+        {tab === 'comments' && <DashComments/>}
       </div>
     </div>
   )

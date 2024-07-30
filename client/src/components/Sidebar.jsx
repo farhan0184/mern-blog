@@ -9,14 +9,12 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import {
-  PresentationChartBarIcon,
-  ShoppingBagIcon,
   UserCircleIcon,
-  Cog6ToothIcon,
-  InboxIcon,
   PowerIcon,
 } from "@heroicons/react/24/solid";
 import { HiDocumentText } from "react-icons/hi";
+import { MdInsertComment } from "react-icons/md";
+import { FaUsers } from "react-icons/fa";
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -88,6 +86,26 @@ export function Sidebar({ isDrawer, closeDrawer }) {
         </Link>
         {
           user.isAdmin && <>
+            <Link to={'/dashboard?tab=users'}>
+              <ListItem className={`text-gray-700 dark:text-white py-4  flex justify-between   ${tab === 'users' ? "bg-gray-200 dark:bg-white/20" : "hover:bg-gray-200 dark:hover:bg-white/20"}`}>
+                <span className="flex items-center">
+                  <ListItemPrefix>
+                    <FaUsers className="h-5 w-5" />
+                  </ListItemPrefix>
+                  Users
+                </span>
+              </ListItem>
+            </Link>
+            <Link to={'/dashboard?tab=comments'}>
+              <ListItem className={`text-gray-700 dark:text-white py-4  flex justify-between   ${tab === 'comments' ? "bg-gray-200 dark:bg-white/20" : "hover:bg-gray-200 dark:hover:bg-white/20"}`}>
+                <span className="flex items-center">
+                  <ListItemPrefix>
+                    <MdInsertComment className="h-5 w-5" />
+                  </ListItemPrefix>
+                  Comments
+                </span>
+              </ListItem>
+            </Link>
             <Link to={'/dashboard?tab=posts'}>
               <ListItem className={`text-gray-700 dark:text-white py-4  flex justify-between   ${tab === 'posts' ? "bg-gray-200 dark:bg-white/20" : "hover:bg-gray-200 dark:hover:bg-white/20"}`}>
                 <span className="flex items-center">
@@ -98,6 +116,7 @@ export function Sidebar({ isDrawer, closeDrawer }) {
                 </span>
               </ListItem>
             </Link>
+
           </>
         }
 
