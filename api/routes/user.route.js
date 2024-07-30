@@ -9,4 +9,5 @@ router.delete('/delete/:userId', verifyUser, deleteUser)
 router.post('/signout',Signout)
 router.get('/user-list', verifyUser, getUsers )
 
+
 export default router

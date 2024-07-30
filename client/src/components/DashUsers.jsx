@@ -1,8 +1,7 @@
-import { Button, Card, Typography } from '@material-tailwind/react'
+import { Alert, Button, Card, Typography } from '@material-tailwind/react'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
 import CustomDialog from './CustomDialog'
 import { FaCheck, FaTimes } from 'react-icons/fa'
 
@@ -16,6 +15,8 @@ export default function DashPost() {
 
     // post id
     const [userId, setUserId] = useState(null)
+    const [success, setSuccess] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
 
 
 
@@ -24,9 +25,10 @@ export default function DashPost() {
     const [showMore, setShowMore] = useState(true)
     // console.log(posts)
     useEffect(() => {
-        const fetchPosts = async () => {
+        const fetchUsers = async () => {
             try {
                 const res = await axios.get(`/api/user/user-list?sort=asc`)
+                // console.log(res)
                 if (res.statusText = 'OK') {
                     setUsers(res?.data?.users)
                     if (res?.data?.users?.length < 9) {
@@ -34,11 +36,11 @@ export default function DashPost() {
                     }
                 }
             } catch (error) {
-                console.log(error)
+                setErrorMessage(error.message)
             }
         }
         if (user.isAdmin) {
-            fetchPosts()
+            fetchUsers()
         }
     }, [user._id])
     // console.log(posts.length)
@@ -55,10 +57,32 @@ export default function DashPost() {
                 }
             }
         } catch (error) {
-
+            setErrorMessage(error.message)
         }
 
 
+    }
+
+    const handleUserDelete =async () =>{
+        if(user.isAdmin){
+            setErrorMessage("Admin can not delete")
+            return
+        }
+        try {
+            const res = await axios.delete(`/api/user/delete/${userId}`)
+            console.log(res)
+            if (res.statusText === 'OK') {
+                setSuccess(res?.data?.message)
+                setUsers(users.filter(user => user._id !== userId))
+                setDialogOpen(false)
+            }
+            else{
+                setErrorMessage(res?.data?.message)
+            }
+        } catch (error) {
+            console.log(error)
+            setErrorMessage(error.message)
+        }
     }
 
 
@@ -66,7 +90,7 @@ export default function DashPost() {
     return (
         <div className='table-auto overflow-x-scroll md:mx-auto scrollbar scrollbar-track-slate-100'>
             <div className="h-min  my-10 ">
-                <p>{users.length}</p>
+                {/* <p>{users.length}</p> */}
                 {<><table className="w-full min-w-max table-auto text-left">
                     <thead>
                         <tr className='dark:bg-gray-600'>
@@ -84,7 +108,7 @@ export default function DashPost() {
                         </tr>
                     </thead>
                     <tbody>
-                        {users?.map((user, idx) => (
+                        { users?.map((user, idx) => (
                             <tr key={idx} className='dark:border-gray-700 dark:text-white dark:bg-gray-800'>
                                 <td className="p-4 border-b border-blue-gray-50">
                                     <Typography
@@ -146,14 +170,14 @@ export default function DashPost() {
                     </div>
                 )}
             </div>
-
-
+           {success &&<Alert>{success}</Alert>}
+           {errorMessage && <Alert>{errorMessage}</Alert>}
             <CustomDialog isOpen={isDialogOpen} onClose={closeDialog}>
                 <div className='w-[400px]'>
-                    <h2 className="text-xl font-bold mb-4 text-black">Are you went to delete this post?</h2>
+                    <h2 className="text-xl font-bold mb-4 text-black">Are you went to delete this User?</h2>
                     <div className='flex justify-end gap-3'>
                         <Button className='bg-red-500' onClick={closeDialog}>close</Button>
-                        <Button onClick={() => { }} className='bg-green-500'>Yes, sure</Button>
+                        <Button onClick={handleUserDelete} className='bg-green-500'>Yes, sure</Button>
                     </div>
                 </div>
             </CustomDialog>
