@@ -123,7 +123,7 @@ export default function DashPost() {
                                     <img
                                         src={user.profilePicture}
                                         alt={user.username}
-                                        className='w-20 h-10 object-cover bg-gray-500'
+                                        className='w-14 h-14 object-cover bg-gray-500 rounded-full'
                                     />
                                 </td>
                                 <td className='p-4 border-b border-blue-gray-50'>

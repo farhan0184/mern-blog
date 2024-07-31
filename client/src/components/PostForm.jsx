@@ -99,6 +99,8 @@ export default function PostForm({ post, isUpdate }) {
         }
 
     }
+
+    
     return (
         <div className=' max-w-3xl mx-auto my-20'>
             <h1 className='text-center text-3xl my-7 font-semibold'>{isUpdate ? "Update the" : "Create a"} post</h1>

@@ -25,7 +25,7 @@ export default function DashPost() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await axios.get(`/api/post/getposts?userId=${user._id}`)
+        const res = await axios.get(`/api/post/getposts`)
         if (res.statusText = 'OK') {
           setPosts(res?.data?.posts)
           if (res?.data?.posts?.length < 9) {
