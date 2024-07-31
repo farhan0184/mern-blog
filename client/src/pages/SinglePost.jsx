@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Badge, Spinner } from '@material-tailwind/react'
+import CallToAction from '../components/CallToAction'
 export default function SinglePost() {
   const { postSlug } = useParams()
   console.log(postSlug)
@@ -51,6 +52,10 @@ export default function SinglePost() {
       </div>
       <div className='w-full max-w-2xl mx-auto post-content' dangerouslySetInnerHTML={{__html: post && post.content}}>
 
+      </div>
+
+      <div>
+        <CallToAction/>
       </div>
     </div>
   )
