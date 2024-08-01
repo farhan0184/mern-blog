@@ -18,12 +18,12 @@ export default function CommentSection({ postId }) {
     }
     try {
       const res = await axios.post('/api/comment/create', { content: comment, postId, userId: user._id })
-      console.log(res)
+      // console.log(res)
       if (res.statusText === 'Created') {
         
         setComment('')
         setCommentError(null)
-        setComments([...comments, res.data])
+        setComments([ res.data, ...comments])
       }
     } catch (error) {
       setCommentError(error.message)
@@ -46,7 +46,41 @@ export default function CommentSection({ postId }) {
   }, [postId])
 
 
-  console.log(comments)
+  console.log(comment)
+
+  const handleLike = async (commentId)=>{
+    // console.log(commentId)
+    try {
+      const res = await axios.put(`/api/comment/likeComment/${commentId}`)
+      // console.log(res.data)
+      if(res.statusText === 'OK'){
+        // console.log(res.data)
+        setComments(comments.map((comment)=>
+          comment._id === commentId ? {
+            ...comment,
+            likes: res.data.likes,
+            numberOfLikes: res.data.likes.length
+          } : comment
+        ))
+      }else{
+        console.log(res.message)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  const handleCommentDelete = async (commentId)=>{
+    // console.log(commentId)
+    try {
+      const res = await axios.delete(`/api/comment/deleteComment/${commentId}`)
+      if(res.statusText === 'OK'){
+        setComments(comments.filter(comment => comment._id !== commentId))
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
   return (
     <div className='w-full max-w-2xl mx-auto my-10'>
       {user ? (
@@ -64,7 +98,7 @@ export default function CommentSection({ postId }) {
 
       {user && (
         <form onSubmit={handleSubmit} className='my-5 border-2 p-5 rounded-md border-light-green-700'>
-          <textarea placeholder='Add a comment...' className='w-full p-2 border border-gray-300 rounded-md h-24 dark:bg-transparent' maxLength={200} onChange={(e) => setComment(e.target.value)} defaultValue={comment} />
+          <textarea placeholder='Add a comment...' className='w-full p-2 border border-gray-300 rounded-md h-24 dark:bg-transparent' maxLength={200} onChange={(e) => setComment(e.target.value)} value={comment} />
           <div className='flex items-center justify-between my-3 outline-light-green-300'>
             <p>{200 - comment?.length} characters remaining</p>
             <Button className='btn' type='submit'>Submit</Button>
@@ -83,9 +117,10 @@ export default function CommentSection({ postId }) {
               <p>{comments.length}</p>
             </div>
           </div>
-          {comments.map((comment) => (
-            <Comment key={comment._id} comment={comment} /> 
-          ))}
+          {comments.map((comment) => {
+            // console.log(comment)
+            return comment && <Comment key={comment?._id} comment={comment} onLike={handleLike} deleteComment={handleCommentDelete}/> 
+          })}
         </>
       )}
     </div>
