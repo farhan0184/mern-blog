@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Badge, Spinner } from '@material-tailwind/react'
 import CallToAction from '../components/CallToAction'
+import CommentSection from '../components/CommentSection'
 export default function SinglePost() {
   const { postSlug } = useParams()
   console.log(postSlug)
@@ -56,6 +57,10 @@ export default function SinglePost() {
 
       <div>
         <CallToAction/>
+      </div>
+
+      <div>
+        <CommentSection postId={post && post._id}/>
       </div>
     </div>
   )
