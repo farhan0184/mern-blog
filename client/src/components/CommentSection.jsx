@@ -11,25 +11,31 @@ export default function CommentSection({ postId }) {
   const [comment, setComment] = useState('')
   const [comments, setComments] = useState([])
   const [commentError, setCommentError] = useState(null)
+
+
+
+  // create comment
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (comment.length === 0 || comment.length > 200) {
+      setCommentError('Comment must be between 1 and 200 characters')
       return
     }
     try {
       const res = await axios.post('/api/comment/create', { content: comment, postId, userId: user._id })
       // console.log(res)
       if (res.statusText === 'Created') {
-        
+
         setComment('')
         setCommentError(null)
-        setComments([ res.data, ...comments])
+        setComments([res.data, ...comments])
       }
     } catch (error) {
       setCommentError(error.message)
     }
   }
 
+  // fetch comments
   useState(() => {
     const fetchComments = async () => {
       try {
@@ -46,23 +52,24 @@ export default function CommentSection({ postId }) {
   }, [postId])
 
 
-  console.log(comment)
+  // console.log(comment)
 
-  const handleLike = async (commentId)=>{
+  // like comment
+  const handleLike = async (commentId) => {
     // console.log(commentId)
     try {
       const res = await axios.put(`/api/comment/likeComment/${commentId}`)
       // console.log(res.data)
-      if(res.statusText === 'OK'){
+      if (res.statusText === 'OK') {
         // console.log(res.data)
-        setComments(comments.map((comment)=>
+        setComments(comments.map((comment) =>
           comment._id === commentId ? {
             ...comment,
             likes: res.data.likes,
             numberOfLikes: res.data.likes.length
           } : comment
         ))
-      }else{
+      } else {
         console.log(res.message)
       }
     } catch (error) {
@@ -70,17 +77,31 @@ export default function CommentSection({ postId }) {
     }
   }
 
-  const handleCommentDelete = async (commentId)=>{
+
+  // delete comment
+  const handleCommentDelete = async (commentId) => {
     // console.log(commentId)
     try {
       const res = await axios.delete(`/api/comment/deleteComment/${commentId}`)
-      if(res.statusText === 'OK'){
+      if (res.statusText === 'OK') {
         setComments(comments.filter(comment => comment._id !== commentId))
       }
     } catch (error) {
       console.log(error.message)
     }
   }
+
+
+  // update comment
+  const handleEdit = (commentId, newContent)=>{
+    setComments(comments.map((comment) =>
+      comment._id === commentId ? {
+        ...comment,
+        content: newContent
+      } : comment
+    ))
+  }
+  
   return (
     <div className='w-full max-w-2xl mx-auto my-10'>
       {user ? (
@@ -111,16 +132,20 @@ export default function CommentSection({ postId }) {
         <p className='text-sm my-5'>No comments yet!</p>
       ) : (
         <>
-          <div className='text-sm py-5 flex items-center gap-1'>
-            <p>Comments</p>
-            <div className='border border-gray-400 py-1 px-2 rounded-sm'>
-              <p>{comments.length}</p>
-            </div>
-          </div>
-          {comments.map((comment) => {
-            // console.log(comment)
-            return comment && <Comment key={comment?._id} comment={comment} onLike={handleLike} deleteComment={handleCommentDelete}/> 
-          })}
+          {user && 
+            <>
+              <div className='text-sm py-5 flex items-center gap-1'>
+                <p>Comments</p>
+                <div className='border border-gray-400 py-1 px-2 rounded-sm'>
+                  <p>{comments.length}</p>
+                </div>
+              </div>
+              {comments.map((comment) => {
+                // console.log(comment)
+                return comment && <Comment key={comment?._id} comment={comment} onLike={handleLike} deleteComment={handleCommentDelete}  onEdit={handleEdit} />
+              })}
+            </>
+          }
         </>
       )}
     </div>
