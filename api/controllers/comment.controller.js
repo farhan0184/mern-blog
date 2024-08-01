@@ -72,7 +72,7 @@ export const deleteComment = async (req, res, next) => {
 
 
 export const updateComment = async (req, res, next) => {
-    console.log(req)
+    // console.log(req)
     try {
 
         const comment = await Comment.findById(req.params.commentId);

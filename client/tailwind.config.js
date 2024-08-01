@@ -7,6 +7,7 @@ module.exports = withMT({
   },
   plugins: [
     require('tailwind-scrollbar'),
+    require('@tailwindcss/line-clamp')
   ],
 });
 

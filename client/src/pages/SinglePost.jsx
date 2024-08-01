@@ -4,14 +4,18 @@ import axios from 'axios'
 import { Badge, Spinner } from '@material-tailwind/react'
 import CallToAction from '../components/CallToAction'
 import CommentSection from '../components/CommentSection'
+import PostCard from '../components/PostCard'
 export default function SinglePost() {
   const { postSlug } = useParams()
-  console.log(postSlug)
+  // console.log(postSlug)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [post, setPost] = useState(null)
 
+  // recent post 
+  const [recentPosts, setRecentPosts] = useState([])
 
+  // single post
   useEffect(() => {
     const fetchPost = async () => {
       setLoading(true)
@@ -31,6 +35,22 @@ export default function SinglePost() {
     }
     fetchPost()
   }, [postSlug])
+
+
+  // recent post
+  useEffect(()=>{
+    try {
+      const fetchPost = async ()=>{
+        const res = await axios.get('/api/post/getposts?limit=3')
+        if(res.statusText === 'OK'){
+          setRecentPosts(res?.data?.posts)
+        }
+      }
+      fetchPost()
+    } catch (error) {
+      console.log(error)
+    }
+  },[])
 
   if (loading) {
     return <div className='flex justify-center items-center min-h-screen'><Spinner className="h-12 w-12" /></div>
@@ -61,6 +81,15 @@ export default function SinglePost() {
 
       <div>
         <CommentSection postId={post && post._id}/>
+      </div>
+
+      <div className='flex flex-col justify-center items-center mb-5'>
+        <h1 className='text-xl mt-5 font-bold'>Related Articles</h1>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-10'>
+          {recentPosts && recentPosts?.map((post) => (
+            <PostCard post={post} key={post._id}/>
+          ))}
+        </div>
       </div>
     </div>
   )
