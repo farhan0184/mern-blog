@@ -73,6 +73,19 @@ export function Sidebar({ isDrawer, closeDrawer }) {
         </IconButton>}
       </div>
       <List >
+        {user.isAdmin && <>
+          <Link to={'/dashboard?tab=dash'}>
+            <ListItem className={`text-gray-700 dark:text-white py-4  flex justify-between   ${tab === 'dash' ? "bg-gray-200 dark:bg-white/20" : "hover:bg-gray-200 dark:hover:bg-white/20"}`}>
+              <span className="flex items-center">
+                <ListItemPrefix>
+                  <FaUsers className="h-5 w-5" />
+                </ListItemPrefix>
+                Dashboard
+              </span>
+            </ListItem>
+          </Link>
+        </>
+        }
         <Link to={'/dashboard?tab=profile'}>
           <ListItem className={`text-gray-700 dark:text-white  flex justify-between   ${tab === 'profile' ? "bg-gray-200 dark:bg-white/20" : "hover:bg-gray-200 dark:hover:bg-white/20"}`}>
             <span className="flex items-center">
@@ -86,6 +99,7 @@ export function Sidebar({ isDrawer, closeDrawer }) {
         </Link>
         {
           user.isAdmin && <>
+
             <Link to={'/dashboard?tab=users'}>
               <ListItem className={`text-gray-700 dark:text-white py-4  flex justify-between   ${tab === 'users' ? "bg-gray-200 dark:bg-white/20" : "hover:bg-gray-200 dark:hover:bg-white/20"}`}>
                 <span className="flex items-center">

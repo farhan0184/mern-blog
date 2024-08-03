@@ -28,7 +28,7 @@ export default function DashUsers() {
         const fetchUsers = async () => {
             try {
                 const res = await axios.get(`/api/user/user-list?sort=asc`)
-                console.log(res)
+                // console.log(res)
                 if (res.statusText = 'OK') {
                     setUsers(res?.data?.users)
                     if (res?.data?.users?.length < 9) {
