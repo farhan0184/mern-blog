@@ -1,37 +1,56 @@
-import { Card, Typography } from "@material-tailwind/react";
-
+import { Link } from 'react-router-dom'
+import CallToAction from '../components/CallToAction'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import PostCard from '../components/PostCard'
+import LoafingBtnSvg from '../components/LoafingBtnSvg'
 
 export default function Home() {
+    const [posts, setPosts] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            setLoading(true)
+            const res = await axios.get('/api/post/getposts?limit=6')
+            if (res.statusText === 'OK') {
+                setLoading(false)
+                setPosts(res.data.posts)
+
+            }
+            else {
+                console.log(res.data.message)
+                setLoading(false)
+            }
+        }
+        fetchPosts()
+    }, [])
     return (
         <div>
-            <div className="mx-auto max-w-screen-md py-12">
-                <Card className="mb-12 overflow-hidden">
-                    <img
-                        alt="nature"
-                        className="h-[32rem] w-full object-cover object-center"
-                        src="https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2717&q=80"
-                    />
-                </Card>
-                <Typography variant="h2" color="blue-gray" className="mb-2">
-                    What is Material Tailwind
-                </Typography>
-                <Typography color="gray" className="font-normal">
-                    Can you help me out? you will get a lot of free exposure doing this
-                    can my website be in english?. There is too much white space do less
-                    with more, so that will be a conversation piece can you rework to make
-                    the pizza look more delicious other agencies charge much lesser can
-                    you make the blue bluer?. I think we need to start from scratch can my
-                    website be in english?, yet make it sexy i&apos;ll pay you in a week
-                    we don&apos;t need to pay upfront i hope you understand can you make
-                    it stand out more?. Make the font bigger can you help me out? you will
-                    get a lot of free exposure doing this that&apos;s going to be a chunk
-                    of change other agencies charge much lesser. Are you busy this
-                    weekend? I have a new project with a tight deadline that&apos;s going
-                    to be a chunk of change. There are more projects lined up charge extra
-                    the next time.
-                </Typography>
+            <div className="flex flex-col justify-center items-center h-[50vh]">
+
+                <h1 className="text-3xl font-bold">Welcome to My Blog</h1>
+                <p className="text-gray-500 text-sm w-[30%] text-center mt-2">Here, you'll find  variety of articles and tutorials on topics such as web development, software engineering, and more.</p>
+                <Link to={'/search'} className='text-sm mt-5 text-blue-700'>View all posts</Link>
+
+            </div>
+            <div className="flex flex-col items-center justify-center h-[50vh] my-10 bg-deep-orange-100/60" >
+                <CallToAction />
             </div>
 
+            <div className='my-5'>
+                <h1 className="text-3xl font-bold text-center">Recent Posts</h1>
+                <div className='md:w-[80%] w-[70%] mx-auto mt-5 flex justify-center flex-col'>
+                    <div >
+                        {loading ? <div className='h-[300px] flex items-center justify-center'><LoafingBtnSvg/></div> : <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
+                            {posts && posts.map(post => <PostCard key={post._id} post={post} />)}
+                        </div> }
+                    </div>
+                    <Link to={'/search'} className='text-sm mt-5 text-blue-700 text-center'>View all posts</Link>
+                    
+                </div>
+                
+            </div>
         </div >
     )
 }
