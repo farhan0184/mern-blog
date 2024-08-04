@@ -34,7 +34,7 @@ export default function Home() {
                 <Link to={'/search'} className='text-sm mt-5 text-blue-700'>View all posts</Link>
 
             </div>
-            <div className="flex flex-col items-center justify-center h-[50vh] my-10 bg-deep-orange-100/60" >
+            <div className="flex flex-col items-center justify-center h-[50vh] my-10 w-full bg-deep-orange-100/60" >
                 <CallToAction />
             </div>
 
@@ -42,10 +42,17 @@ export default function Home() {
                 <h1 className="text-3xl font-bold text-center">Recent Posts</h1>
                 <div className='md:w-[80%] w-[70%] mx-auto mt-5 flex justify-center flex-col'>
                     <div >
-                        {loading ? <div className='h-[300px] flex items-center justify-center'><LoafingBtnSvg /></div> : <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
-                            {posts && posts.map(post => <PostCard key={post._id} post={post} />)}
-                            <Link to={'/search'} className='text-sm mt-5 text-blue-700 text-center'>View all posts</Link>
-                        </div>}
+                        {loading ? <div className='h-[300px] flex items-center justify-center'><LoafingBtnSvg /></div> : <>
+                            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
+                                {posts && posts.map(post => <PostCard key={post._id} post={post} />)}
+
+                            </div>
+                            <div className='text-center text-md mt-5'>
+                                <Link to={'/search'} className=' text-blue-700 text-center'>View all posts</Link>
+                            </div>
+
+                        </>
+                        }
                     </div>
 
 

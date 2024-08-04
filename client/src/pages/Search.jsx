@@ -159,14 +159,18 @@ export default function Search() {
                             <p className='text-xl '>you have not post yet!</p>
                         </div> :
                             <>
-                                {loading ? <div className='h-[300px] flex items-center justify-center'><LoafingBtnSvg /></div> : <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
-                                    {posts && posts.map(post => <PostCard key={post._id} post={post} />)}
+                                {loading ? <div className='h-[300px] flex items-center justify-center'><LoafingBtnSvg /></div> : <>
+                                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
+                                        {posts && posts.map(post => <PostCard key={post._id} post={post} />)}
+
+                                    </div>
                                     {
                                         showMore && posts.length !== 0 && (
                                             <Button onClick={handleShowMore} className='w-full mt-5 py-4'>Show More</Button>
                                         )
                                     }
-                                </div>}
+                                </>
+                                }
                             </>
                         }
                     </div>
