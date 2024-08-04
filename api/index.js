@@ -9,6 +9,8 @@ import cookieParser from 'cookie-parser';
 import path from 'path'
 import cors from 'cors';
 
+
+const app = express();
 app.use(cors({
     origin: 'https://mern-blog-ffzd.onrender.com',
     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
@@ -30,7 +32,6 @@ await mongoose
 
 const __dirname = path.resolve()
 
-const app = express();
 
 app.use(express.json());
 app.use(cookieParser()); // for read cookie from browser
