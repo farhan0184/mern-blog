@@ -7,6 +7,13 @@ import postRoutes from './routes/post.route.js';
 import commentRoutes from './routes/comment.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path'
+import cors from 'cors';
+
+app.use(cors({
+    origin: 'https://mern-blog-ffzd.onrender.com',
+    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 
 // after install env - npm i env
