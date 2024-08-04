@@ -13,6 +13,7 @@ import CreatePost from './pages/CreatePost'
 import IsAdminPrivateRoute from './components/IsAdminPrivateRoute'
 import UpdatePost from './pages/UpdatePost'
 import SinglePost from './pages/SinglePost'
+import Search from './pages/Search'
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />
+          <Route path='/search' element={<Search />} />
           <Route path='/post/:postSlug' element={<SinglePost/>}/>
           <Route element={<PrivateRoute />} >
             <Route path='/dashboard' element={<Dashboard />} />

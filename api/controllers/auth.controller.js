@@ -51,7 +51,7 @@ export const signin = async(req, res, next)=>{
         const {password:pass, ...rest} = validUser._doc
 
         const token = jwt.sign({id: validUser._id, isAdmin: validUser.isAdmin}, process.env.JWT_SECRET, {expiresIn: '1d'})
-        res.status(200).cookie('access_token', token, {httpOnly: true}).json({data:rest,message: 'Login successfully'})
+        res.status(200).cookie('accessToken', token, {httpOnly: true}).json({data:rest,message: 'Login successfully'})
     } catch (error) {
         next(error)
     }
@@ -64,7 +64,7 @@ export const google = async(req, res, next)=>{
         if(user){
             const token = jwt.sign({id: user._id, isAdmin: user.isAdmin}, process.env.JWT_SECRET, {expiresIn: '1d'})
             const {password, ...rest} = user._doc
-            res.status(200).cookie('access_token', token, {httpOnly: true}).json({data:rest,message: 'Login successfully'})
+            res.status(200).cookie('accessToken', token, {httpOnly: true}).json({data:rest,message: 'Login successfully'})
         }else{
             const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8)
             const hashPassword = bcryptjs.hashSync(generatedPassword, 10)
@@ -79,7 +79,7 @@ export const google = async(req, res, next)=>{
             const token = jwt.sign({id: newUser._id, isAdmin: newUser.isAdmin}, process.env.JWT_SECRET, {expiresIn: '1d'})
             const {password, ...rest} = newUser._doc
             res.status(200)
-               .cookie('access_token', token, {httpOnly: true}).json({data:rest,message: 'Login successfully'})
+               .cookie('accessToken', token, {httpOnly: true}).json({data:rest,message: 'Login successfully'})
         }
     } catch (error) {
         next(error) 

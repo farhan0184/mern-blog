@@ -26,6 +26,22 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser()); // for read cookie from browser
 
+
+function checkJwtInCookie(req, res, next) {
+    const jwt = req.cookies['accessToken'];
+    if (jwt) {
+        res.status(200).send('JWT found in cookie');
+    } else {
+        console.log('JWT not found');
+        res.status(401).send('Unauthorized: No token provided');
+    }
+}
+
+// Use the middleware for routes that need JWT authentication
+app.use('/loginOrNot', checkJwtInCookie, (req, res) => {
+    res.send('This is a protected route');
+});
+
 app.listen(3000, () => {
     console.log('Server is running 3000!!!')
 })
