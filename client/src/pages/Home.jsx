@@ -14,7 +14,8 @@ export default function Home() {
             setLoading(true)
             const res = await axios.get('/api/post/getposts?limit=6')
             console.log(res)
-            if (res.statusText === 'OK') {
+            if (res.status === 200) {
+                
                 setLoading(false)
                 setPosts(res.data.posts)
 
