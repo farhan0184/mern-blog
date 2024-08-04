@@ -13,6 +13,7 @@ export default function Home() {
         const fetchPosts = async () => {
             setLoading(true)
             const res = await axios.get('/api/post/getposts?limit=6')
+            console.log(res)
             if (res.statusText === 'OK') {
                 setLoading(false)
                 setPosts(res.data.posts)

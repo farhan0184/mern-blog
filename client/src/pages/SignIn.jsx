@@ -32,12 +32,12 @@ export default function SignIn() {
     try {
       dispatch(signInStart())
       const res = await axios.post('/api/auth/signin', value)
-      // console.log(res);
+      console.log(res);
       // setSuccess(res?.data?.message)
       // reset()
       
       // console.log(res);
-      if (res?.statusText === 'OK') {
+      if (res.statusText === 'OK') {
         dispatch(signInSuccess(res?.data?.data))
         navigate('/')
       }else{
