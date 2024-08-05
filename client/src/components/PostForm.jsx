@@ -64,13 +64,13 @@ export default function PostForm({ post, isUpdate }) {
         e.preventDefault()
         // console.log(formData)
         try {
-            const response = await axios.post('/api/post/create', formData)
+            const res = await axios.post('/api/post/create', formData)
             // console.log(response)
-            if (response?.statusText === 'Created') {
+            if (res.status === 200) {
                 setPublishError(null)
-                navigate(`/post/${response?.data?.data?.slug}`)
+                navigate(`/post/${res?.data?.data?.slug}`)
             } else {
-                setPublishError(response?.data?.message)
+                setPublishError(res?.data?.message)
             }
         } catch (error) {
             setPublishError(error?.message)
@@ -86,7 +86,7 @@ export default function PostForm({ post, isUpdate }) {
                 setPublishError(null)
                 const res = await axios.put(`/api/post/updatepost/${post._id}/${post.userId}`, formData)
                 // console.log(res?.data?.data?.slug)
-                if (res?.statusText === 'OK') {
+                if (res.status === 200) {
                     setPublishError(null)
                     navigate(`/post/${res?.data?.data?.slug}`)
                 } else {

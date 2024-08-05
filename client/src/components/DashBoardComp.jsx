@@ -22,7 +22,7 @@ export default function DashBoardComp() {
         const fetchUsers = async () => {
             try {
                 const res = await axios.get('/api/user/user-list?limit=5')
-                if (res.statusText === 'OK') {
+                if (res.status === 200) {
                     setUsers(res.data.users)
                     setTotalUsers(res.data.totalUsers)
                     setLastMonthUsers(res.data.lastMonthUsers)
@@ -35,7 +35,7 @@ export default function DashBoardComp() {
         const fetchPosts = async () => {
             try {
                 const res = await axios.get('/api/post/getposts?limit=5')
-                if (res.statusText === 'OK') {
+                if (res.status === 200) {
                     setPosts(res.data.posts)
                     setTotalPosts(res.data.totalPosts)
                     setLastMonthPosts(res.data.lastMonthPosts)
@@ -47,7 +47,7 @@ export default function DashBoardComp() {
         const fetchComments = async () => {
             try {
                 const res = await axios.get('/api/comment/getPostComments?limit=5')
-                if (res.statusText === 'OK') {
+                if (res.status === 200) {
                     setComments(res.data.comments)
                     setTotalComments(res.data.totalComments)
                     setLastMonthComments(res.data.lastMonthComments)

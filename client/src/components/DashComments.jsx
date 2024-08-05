@@ -29,7 +29,7 @@ export default function DashComments() {
             try {
                 const res = await axios.get(`/api/comment/getPostComments?sort=asc`)
                 console.log(res)
-                if (res.statusText = 'OK') {
+                if (res.status === 200) {
                     setComments(res.data.comments)
                     if (res?.data?.comments?.length < 9) {
                         setShowMore(false)
@@ -50,7 +50,7 @@ export default function DashComments() {
         const startIndex = comments.length
         try {
             const res = await axios.get(`/api/comment/getPostComments?startIndex=${startIndex}`)
-            if (res.statusText === 'OK') {
+            if (res.status === 200) {
                 setComments(prev => [...prev, ...res?.data?.comments])
                 // console.log(res.data.posts.length < 9)
                 if (res?.data?.comments?.length < 9) {
@@ -69,7 +69,7 @@ export default function DashComments() {
         try {
             const res = await axios.delete(`/api/comment/deleteComment/${commentId}`)
             // console.log(res)
-            if (res.statusText === 'OK') {
+            if (res.status === 200) {
                 setSuccess(res?.data?.message)
                 setComments(comments.filter(comment => comment._id !== commentId))
                 setDialogOpen(false)

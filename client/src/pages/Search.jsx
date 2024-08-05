@@ -36,7 +36,7 @@ export default function Search() {
             try {
                 const res = await axios.get(`/api/post/getposts?${searchQuery}`)
                 // console.log(res)
-                if (res.statusText === 'OK') {
+                if (res.status === 200) {
                     setLoading(false)
                     setPosts(res.data.posts)
                     if (res.data.posts.length === 9) {
@@ -101,7 +101,7 @@ export default function Search() {
         const startIndex = posts.length
         try {
             const res = await axios.get(`/api/post/getposts?${searchQuery}&startIndex=${startIndex}`)
-            if (res.statusText === 'OK') {
+            if (res.status === 200) {
                 setPosts(prev => [...prev, ...res?.data?.posts])
                 // console.log(res.data.posts.length < 9)
                 if (res?.data?.posts?.length < 9) {
@@ -109,7 +109,7 @@ export default function Search() {
                 }
             }
         } catch (error) {
-
+            console.log(error)
         }
 
 

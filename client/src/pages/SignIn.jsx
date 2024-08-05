@@ -37,7 +37,7 @@ export default function SignIn() {
       // reset()
       
       // console.log(res);
-      if (res.statusText === 'OK') {
+      if (res.status === 200) {
         dispatch(signInSuccess(res?.data?.data))
         navigate('/')
       }else{

@@ -22,7 +22,7 @@ export default function SinglePost() {
       try {
         const res = await axios.get(`/api/post/getposts?slug=${postSlug}`)
         // console.log(res.data.posts)
-        if (res.statusText === 'OK') {
+        if (res.status === 200) {
           setLoading(false)
           setPost(res.data.posts[0])
           setError(null)
@@ -42,7 +42,7 @@ export default function SinglePost() {
     try {
       const fetchPost = async ()=>{
         const res = await axios.get('/api/post/getposts?limit=3')
-        if(res.statusText === 'OK'){
+        if(res.status === 200){
           setRecentPosts(res?.data?.posts)
         }
       }

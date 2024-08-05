@@ -16,7 +16,7 @@ export default function UpdatePost() {
             const fatchPost = async ()=>{
                 const res = await axios.get(`/api/post/getposts?postId=${postId}`)
                 // console.log(res)
-                if(res.statusText === 'OK'){
+                if(res.status === 200){
                     setPost(res?.data?.posts[0])
                 }else{
                     console.log(res.data.message)

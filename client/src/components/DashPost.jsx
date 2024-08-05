@@ -26,7 +26,7 @@ export default function DashPost() {
     const fetchPosts = async () => {
       try {
         const res = await axios.get(`/api/post/getposts`)
-        if (res.statusText = 'OK') {
+        if (res.status === 200) {
           setPosts(res?.data?.posts)
           if (res?.data?.posts?.length < 9) {
             setShowMore(false)
@@ -46,7 +46,7 @@ export default function DashPost() {
     const startIndex = posts.length
     try {
       const res = await axios.get(`/api/post/getposts?userId=${user._id}&startIndex=${startIndex}`)
-      if (res.statusText === 'OK') {
+      if (res.status === 200) {
         setPosts(prev => [...prev, ...res?.data?.posts])
         // console.log(res.data.posts.length < 9)
         if (res?.data?.posts?.length < 9) {
@@ -67,7 +67,7 @@ export default function DashPost() {
         `/api/post/deletepost/${postId}/${user._id}`
       )
       // console.log(res)
-      if(res.statusText !== 'OK'){
+      if(res.status !== 200){
         console.log(res.data.message)
 
       }else{

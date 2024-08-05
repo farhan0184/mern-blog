@@ -150,7 +150,7 @@ export default function DashboardProfile() {
     try {
       dispatch(updateStart())
       const res = await axios.put(`/api/user/update/${user._id}`, changes)
-      if (res.statusText === 'OK') {
+      if (res.status === 200) {
         dispatch(updateSuccess(res?.data?.data))
         window.location.reload(); // for reload page
 
@@ -167,7 +167,7 @@ export default function DashboardProfile() {
   const handleSignOut = async () => {
     try {
       const res = await axios.post('/api/user/signout')
-      if (res.statusText === 'OK') {
+      if (res.status === 200) {
         dispatch(userSignoutSuccess())
       } else {
         console.log(res?.data?.message)

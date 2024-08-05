@@ -29,7 +29,7 @@ export default function DashUsers() {
             try {
                 const res = await axios.get(`/api/user/user-list?sort=asc`)
                 // console.log(res)
-                if (res.statusText = 'OK') {
+                if (res.status === 200) {
                     setUsers(res?.data?.users)
                     if (res?.data?.users?.length < 9) {
                         setShowMore(false)
@@ -50,7 +50,7 @@ export default function DashUsers() {
         const startIndex = users.length
         try {
             const res = await axios.get(`/api/user/user-list?startIndex=${startIndex}`)
-            if (res.statusText === 'OK') {
+            if (res.status === 200) {
                 setUsers(prev => [...prev, ...res?.data?.users])
                 // console.log(res.data.posts.length < 9)
                 if (res?.data?.users?.length < 9) {
@@ -72,7 +72,7 @@ export default function DashUsers() {
         try {
             const res = await axios.delete(`/api/user/delete/${userId}`)
             console.log(res)
-            if (res.statusText === 'OK') {
+            if (res.status === 200) {
                 setSuccess(res?.data?.message)
                 setUsers(users.filter(user => user._id !== userId))
                 setDialogOpen(false)

@@ -36,7 +36,7 @@ export default function SignUp() {
       reset()
       setLoading(false)
       console.log(res);
-      if(res?.statusText === 'OK'){
+      if(res.status === 200){
         navigate('/sign-in')
       }
     } catch (error) {
