@@ -17,7 +17,7 @@ export function ProfileDropDown({ user }) {
     const handleSignOut = async () => {
         try {
             const res = await axios.post('/api/user/signout')
-            if (res.statusText === 'OK') {
+            if (res.status === 200) {
                 dispatch(userSignoutSuccess())
             } else {
                 console.log(res?.data?.message)

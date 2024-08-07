@@ -15,7 +15,7 @@ import {
 import { HiDocumentText } from "react-icons/hi";
 import { MdInsertComment } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, redirect, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userSignoutSuccess } from "../redux/user/userSlice";
@@ -26,6 +26,7 @@ export function Sidebar({ isDrawer, closeDrawer }) {
   const location = useLocation();
   const [tab, setTab] = useState('')
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   // console.log(user)
 
   useEffect(() => {
@@ -44,7 +45,6 @@ export function Sidebar({ isDrawer, closeDrawer }) {
       } else {
         console.log(res?.data?.message)
       }
-
     } catch (error) {
       console.log(error?.response?.data?.message)
     }
